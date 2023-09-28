@@ -404,7 +404,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title pb-3">Add your Product here</h4>
-                                        <form class="forms-sample" method="post" action="/productInsertData">
+                                        <form class="forms-sample" method="post" action="/productInsertData" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">Product Name</label>
                                                 <input type="text" name="name" class="form-control"
@@ -425,11 +425,11 @@
                                                 <input type="text" name="description" class="form-control"
                                                     id="exampleInputPassword1" placeholder="Catrgory">
                                             </div>
-                                            <!-- <div class="form-group">
+                                            <div class="form-group">
                                                 <label for="exampleInputPassword1">Image</label>
                                                 <input type="file" name="image" class="form-control pb-4"
                                                     id="exampleInputPassword1" placeholder="Catrgory">
-                                            </div> -->
+                                            </div>
                                             <button type="submit" class="btn btn-primary me-2 mt-4">Submit</button>
 
                                         </form>

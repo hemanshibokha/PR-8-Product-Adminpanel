@@ -1,6 +1,16 @@
 const express = require('express');
 const Routes = express.Router();
 console.log("Routes connected");
+const multer = require('multer');
+const file = multer.diskStorage({
+    destination: (req, res, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }  
+})
+const imageuploads = multer({ storage: file }).single('image');
 const adminController = require('../controller/admincontroller');
 const passport = require('passport');
 Routes.get('/',adminController.login);
@@ -23,7 +33,7 @@ Routes.post('/updateCategory',adminController.updateCategory);
 Routes.get('/deleteSubcategory',adminController.deleteSubcategory);
 Routes.get('/addproduct',adminController.addproduct);
 Routes.get('/viewproduct',adminController.viewproduct);
-Routes.post('/productInsertData',adminController.productInsertData);
+Routes.post('/productInsertData',imageuploads,adminController.productInsertData);
 Routes.get('/DeleteProduct',adminController.DeleteProduct);
 Routes.get('/buyProduct',adminController.buyProduct);
 Routes.get('/confirmOrder',adminController.confirmOrder);

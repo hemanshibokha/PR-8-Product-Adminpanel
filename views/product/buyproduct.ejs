@@ -20,6 +20,13 @@
     <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../../images/favicon.png" />
+    <style>
+        .main-panel tbody img {
+          height: 150px;
+          width: 150px;
+          border-radius: 0%;
+        }
+      </style>
 </head>
 
 <body>
@@ -432,7 +439,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <td>Image</td>
+                                                <td><img src="<%= buyProduct.image %>" alt=""></td>
                                                 <td><%= buyProduct.name %></td>
                                                 <td><%= buyProduct.price %></td>
                                                 <td><%= buyProduct.qty %></td>

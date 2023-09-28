@@ -16,10 +16,10 @@ const productSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    // image : {
-    //     type : String,
-    //     required : true
-    // }
+    image : {
+        type : String,
+        required : true
+    }
 })
 const record = mongoose.model('Product',productSchema);
 module.exports = record;

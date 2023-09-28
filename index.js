@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const database = require('./config/mongoose');
 app.use(express.static(path.join(__dirname,'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));   
 app.set('view engine','ejs');
 const passport = require('passport');
 const passportLocal = require('./config/passportlocal');

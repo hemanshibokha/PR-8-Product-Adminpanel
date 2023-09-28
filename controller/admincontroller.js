@@ -3,6 +3,8 @@ const registerSchema = require('../model/registerSchema');
 const categorySchema = require('../model/categoryschema');
 const subcategorySchema = require('../model/subcategoryschema');
 const productSchema = require('../model/productSchema');
+const path = require('path');
+const fs = require('fs');
 
 const login = (req, res) => {
     if (res.locals.users) {
@@ -305,11 +307,16 @@ const viewproduct = async (req,res) => {
 const productInsertData = async (req,res) => {
     try{
         const{name,price,qty,description} = req.body;
+        let image = '';
+        if (req.file) {
+            image = req.file.path;
+        }
         let Productdata = await productSchema.create({
             name : name,
             price : price,
             qty : qty,
-            description : description
+            description : description,
+            image : image
         })
         if (Productdata) {
             console.log("Product Added");
@@ -328,14 +335,22 @@ const productInsertData = async (req,res) => {
 
 const DeleteProduct = async (req,res) => {
     try{
-        let DeleteProduct = await productSchema.findByIdAndDelete(req.query.id);
-        if (DeleteProduct) {
-            console.log("Record Deleted");
-            return res.redirect('back');
+        let OldRecord = await productSchema.findById(req.query.id);
+        if(OldRecord){
+            fs.unlinkSync(OldRecord.image)
+            let DeleteProduct = await productSchema.findByIdAndDelete(req.query.id);
+            if (DeleteProduct) {    
+                console.log("Record Deleted");
+                return res.redirect('back');
+            }
+            else {
+                console.log("Record not Delete");
+                return res.redirect('back');
+            }
         }
-        else {
-            console.log("Record not Delete");
-            return res.redirect('back');
+        else{
+            console.log("file not Delete");
+            return false;
         }
     }
     catch(error){
