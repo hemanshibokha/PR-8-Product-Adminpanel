@@ -7,7 +7,7 @@ passport.use(new passportLocal({
     try{
         let user = await registerTbl.findOne({email : email});
         if(!user || user.password != password){
-            console.log("Enter valid email Address");
+            console.log("Enter valid password");
             return done(null,false);
         }
         return done(null,user);

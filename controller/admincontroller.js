@@ -281,13 +281,27 @@ const deleteSubcategory = async (req, res) => {
 
 // product data
 
-const addproduct = (req,res) => {
-    return res.render('product/addproduct');
+const addproduct = async (req,res) => {
+    try{
+        let Category = await categorySchema.find({});
+        let Subcategory = await subcategorySchema.find({});
+        console.log(Subcategory);
+        return res.render('product/addproduct',{
+            Category,
+            Subcategory
+        });
+    }
+    catch(error){
+        console.log(error); 
+        return false;
+    }
+    
 }
 
 const viewproduct = async (req,res) => {
     try{
-        let ViewData = await productSchema.find({});
+        let ViewData = await productSchema.find({}).populate('categoryId').populate('subcategoryId');
+        console.log(ViewData);
         if(ViewData){
             return res.render('product/viewproduct',{
                 ViewData
@@ -306,12 +320,14 @@ const viewproduct = async (req,res) => {
 
 const productInsertData = async (req,res) => {
     try{
-        const{name,price,qty,description} = req.body;
+        const{category,subcategory,name,price,qty,description} = req.body;``
         let image = '';
         if (req.file) {
             image = req.file.path;
         }
         let Productdata = await productSchema.create({
+            categoryId : category,
+            subcategoryId : subcategory,
             name : name,
             price : price,
             qty : qty,
@@ -362,9 +378,7 @@ const DeleteProduct = async (req,res) => {
 const buyProduct = async (req,res) => {
     try{
         let id = req.query.id;
-        console.log(id);
         let buyProduct = await productSchema.findById(id);
-        console.log(buyProduct); 
         if(buyProduct){
             return res.render('product/buyproduct',{
                 buyProduct

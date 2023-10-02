@@ -396,7 +396,7 @@
             <!-- partial -->
             <div class="container-fluid page-body-wrapper" style="padding-top: 0px;">
                 <!-- partial -->
-                <div class="main-panel" style="width: 100%; height: 100vh;">
+                <div class="main-panel" style="width: 100%;">
                     <div class="content-wrapper">
                         <a href="/viewproduct" class="btn btn-primary mb-4">View Product</a>
                         <div class="row">
@@ -404,11 +404,33 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title pb-3">Add your Product here</h4>
-                                        <form class="forms-sample" method="post" action="/productInsertData" enctype="multipart/form-data">
+                                        <form class="forms-sample" method="post" action="/productInsertData"
+                                            enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">Product Name</label>
-                                                <input type="text" name="name" class="form-control"
-                                                    placeholder="Name">
+                                                <select name="category" class="form-control">
+                                                    <option>---Select Category</option>
+                                                    <% Category.map((v)=>{ %>
+                                                        <option value="<%= v.id %>">
+                                                            <%= v.category %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Product Name</label>
+                                                <select name="subcategory" class="form-control">
+                                                    <option>---Select Category</option>
+                                                    <% Subcategory.map((v)=>{ %>
+                                                        <option value="<%= v.id %>">
+                                                            <%= v.subcategory %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Product Name</label>
+                                                <input type="text" name="name" class="form-control" placeholder="Name">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">Price</label>
@@ -431,7 +453,6 @@
                                                     id="exampleInputPassword1" placeholder="Catrgory">
                                             </div>
                                             <button type="submit" class="btn btn-primary me-2 mt-4">Submit</button>
-
                                         </form>
                                     </div>
                                 </div>

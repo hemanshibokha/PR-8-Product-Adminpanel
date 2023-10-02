@@ -376,6 +376,8 @@
                         <tr>
                           <th>Id</th>
                           <th>Image</th>
+                          <th>Category</th>
+                          <th>SubCategory</th>
                           <th>Product Name</th>
                           <th>Price</th>
                           <th>Action</th>
@@ -386,8 +388,11 @@
                             <tr>
                                 <td><%= i %></td>
                                 <td><img src="<%= v.image %>"></td>
+                                <td><%= v.categoryId.category %></td>
+                                <td><%= v.subcategoryId.subcategory %></td>
                                 <td><%= v.name %></td>
                                 <td><%= v.price %></td>
+                                
                                 <td>
                                     <button class="btn btn-primary">
                                         <a href="/DeleteProduct?id=<%= v.id %>" style="text-decoration: none;" class="text-white">Remove Item</a>
