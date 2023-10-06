@@ -342,7 +342,6 @@ const addproduct = async (req,res) => {
 const viewproduct = async (req,res) => {
     try{
         let ViewData = await productSchema.find({}).populate('categoryId').populate('subcategoryId');
-        console.log(ViewData);
         if(ViewData){
             return res.render('product/viewproduct',{
                 ViewData
@@ -361,7 +360,7 @@ const viewproduct = async (req,res) => {
 
 const productInsertData = async (req,res) => {
     try{
-        const{category,subcategory,name,price,qty,description} = req.body;``
+        const{category,subcategory,name,price,qty,description} = req.body;
         let image = '';
         if (req.file) {
             image = req.file.path;
@@ -408,6 +407,51 @@ const DeleteProduct = async (req,res) => {
         else{
             console.log("file not Delete");
             return false;
+        }
+    }
+    catch(error){
+        console.log(error);
+        return false;
+    }
+}
+
+const editProduct = async (req,res) => {
+    try{
+        let id = req.query.id;
+        let Editproduct = await productSchema.findById(id);
+        if(Editproduct){
+            return res.render('product/editproduct',{
+                Editproduct
+            });
+        } 
+        else{
+            console.log("record not Send");
+            return false;
+        }
+    } 
+    catch(error){
+        console.log(error);
+        return false;
+    }
+}
+
+const productUpdate = async (req,res) => {
+    try{
+        const {name,price,qty} = req.body;
+        console.log(qty);
+        let productId = req.body.productId;
+        let UpdateProduct = await productSchema.findByIdAndUpdate(productId,{
+            name : name,
+            price : price,
+            qty : qty
+        });
+        if(UpdateProduct){
+            console.log("Product Updated");
+            return res.redirect('/viewproduct');
+        }
+        else{
+            console.log("Product Not Updated");
+            return res.redirect('back');
         }
     }
     catch(error){
@@ -465,6 +509,8 @@ module.exports = {
     viewproduct,
     productInsertData,
     DeleteProduct,
+    editProduct,
+    productUpdate,
     buyProduct,
     confirmOrder
 }

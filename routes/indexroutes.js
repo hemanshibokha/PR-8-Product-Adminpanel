@@ -37,6 +37,8 @@ Routes.get('/addproduct',adminController.addproduct);
 Routes.get('/viewproduct',adminController.viewproduct);
 Routes.post('/productInsertData',imageuploads,adminController.productInsertData);
 Routes.get('/DeleteProduct',adminController.DeleteProduct);
+Routes.get('/editProduct',adminController.editProduct);
+Routes.post('/productUpdate',adminController.productUpdate);
 Routes.get('/buyProduct',adminController.buyProduct);
 Routes.get('/confirmOrder',adminController.confirmOrder);
 module.exports = Routes;  
