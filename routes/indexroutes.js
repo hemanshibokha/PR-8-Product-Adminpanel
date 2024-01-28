@@ -41,4 +41,7 @@ Routes.get('/editProduct',adminController.editProduct);
 Routes.post('/productUpdate',adminController.productUpdate);
 Routes.get('/buyProduct',adminController.buyProduct);
 Routes.get('/confirmOrder',adminController.confirmOrder);
+Routes.get('/forgotpassword',adminController.forgotpassword);
+Routes.post('/postforgotmail',adminController.postforgotmail);
+Routes.get('/otp',adminController.otp);
 module.exports = Routes;  

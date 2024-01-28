@@ -4,7 +4,9 @@ const categorySchema = require('../model/categoryschema');
 const subcategorySchema = require('../model/subcategoryschema');
 const productSchema = require('../model/productSchema');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const fs = require('fs');
+const nodemailer = require('nodemailer');
 
 const login = (req, res) => {
     if (res.locals.users) {
@@ -143,15 +145,23 @@ const addcategoryData = async (req, res) => {
 const deleteData = async (req, res) => {
     try {
         let id = req.query.id;
-        let record = await categorySchema.findByIdAndDelete(id);
-        if (record) {
-            console.log("Record Deleted");
-            return res.redirect('back');
-        }
-        else {
-            console.log("Record not Delete");
-            return res.redirect('back');
-        }
+        let DeleteData = await categorySchema.findByIdAndRemove(id)
+            if (!DeleteData) {
+              console.log("Category Not Found");
+            } else {
+              await subcategorySchema.deleteMany({categoryId : id});
+              await productSchema.deleteMany({categoryId : id});
+              console.log("Record Deleted");
+            }
+        // let record = await categorySchema.findByIdAndDelete(id);
+        // if (record) {
+        //     console.log("Record Deleted");
+        //     return res.redirect('back');
+        // }
+        // else {
+        //     console.log("Record not Delete");
+        //     return res.redirect('back');
+        // }
     }
     catch (error) {
         console.log(error);
@@ -484,7 +494,54 @@ const confirmOrder = (req,res) => {
     return res.render('product/confirmOrder');
 }
 
+const forgotpassword = (req,res) => {
+        return res.render('forgotmail');
+}
+const postforgotmail = async(req,res) => {
+    try{
+        let checkEmail = await registerSchema.findOne({email : req.body.email});
+        if(checkEmail){
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'hemanshibokha@gmail.com',
+                  pass: 'urso ztoh kilg mrfr'
+                }
+              });
+              let otp = Math.floor(Math.random() * 10000);
+              var mailOptions = {
+                from: 'hemanshibokha@gmail.com',
+                to: req.body.email,
+                subject: `Forgotpassword`,
+                text: `Otp =  ${otp}`
+              };
+              
+              transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                  res.cookie('userOtp',{
+                        email : req.body.email,
+                        otp : otp
+                  })
+                    return res.redirect('otp');
+                }
+              });
+        }else{
+            console.log("Email not found");    
+            return false;
+        }
+    }catch(err){
+        console.log(err);
+        return false;
+    }
+}
+const otp = (req,res) => {
+    return res.render('otp');
+}
 module.exports = {
+    forgotpassword,
     login,
     register,
     dashboard,
@@ -512,5 +569,7 @@ module.exports = {
     editProduct,
     productUpdate,
     buyProduct,
-    confirmOrder
+    confirmOrder,
+    postforgotmail,
+    otp
 }
